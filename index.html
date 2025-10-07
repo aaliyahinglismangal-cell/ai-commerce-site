@@ -1,150 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Commerce Site – Algeco Direct</title>
-  <style>
-    body {
-      font-family: Inter, Arial, sans-serif;
-      background: #f8fafc;
-      margin: 0;
-      color: #1e293b;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 3rem;
-      background: white;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-    h1 { font-size: 1.5rem; margin: 0; color: #1e40af; }
-    input {
-      padding: 0.6rem 0.8rem;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      width: 250px;
-    }
-    button {
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 0.6rem 1rem;
-      cursor: pointer;
-      font-weight: 500;
-    }
-    .search { display: flex; gap: 0.5rem; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem 3rem;
-    }
-    .card {
-      background: white;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    }
-    .card img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 0.75rem;
-    }
-    .price {
-      font-weight: 600;
-      margin-top: 0.5rem;
-      font-size: 1.1rem;
-    }
-    .recommendations {
-      background: white;
-      margin: 3rem;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    }
-    .recs {
-      display: flex;
-      gap: 1.5rem;
-      margin-top: 1rem;
-      flex-wrap: wrap;
-    }
-    .recs .card {
-      flex: 1;
-      text-align: center;
-    }
-    footer {
-      background: #1e40af;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-    }
-    /* AI Chat bubble */
-    .chat-bubble {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #2563eb;
-      color: white;
-      padding: 0.75rem 1rem;
-      border-radius: 30px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      cursor: pointer;
-      font-weight: 500;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Algeco Direct — AI Commerce</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brand:#0A2B6E;          /* Algeco navy */
+    --accent:#3B82F6;         /* Electric blue */
+    --bg:#0b1220;
+    --glass:rgba(255,255,255,0.08);
+    --text:#E5EAF2;
+    --muted:#9FB0C6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 10% -10%, #1b2b57, transparent),
+                   radial-gradient(900px 500px at 90% -20%, #0c3ea3, transparent),
+                   #0a0f1c;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial}
+  a,button,input,select{font-family:inherit}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(10,17,28,0.9), rgba(10,17,28,0.6));
+         backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid rgba(255,255,255,0.06)}
+  .wrap{max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;gap:16px;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{height:28px}
+  .brand h1{font-family:"Space Grotesk",Inter,sans-serif;font-weight:700;font-size:18px;letter-spacing:.3px;margin:0;color:#fff}
+
+  /* AI Prompt Bar */
+  .promptbar{display:flex;gap:10px;align-items:center}
+  .search{width:460px;max-width:60vw;background:var(--glass);border:1px solid rgba(255,255,255,.12);border-radius:12px;
+          display:flex;align-items:center;gap:8px;padding:10px 12px;color:var(--text)}
+  .search input{flex:1;background:transparent;border:0;color:var(--text);outline:none}
+  .chip{background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.35);color:#cfe2ff;border-radius:999px;
+        padding:.35rem .7rem;font-size:.85rem;cursor:pointer}
+  .primary{background:linear-gradient(180deg,var(--accent),#2563eb);color:white;border:0;border-radius:12px;padding:.7rem 1rem;font-weight:600}
+
+  /* Hero */
+  .hero{max-width:1200px;margin:28px auto 0;padding:0 24px 8px}
+  .tag{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);
+       background:rgba(255,255,255,0.06);font-size:.82rem;color:#d7e3ff}
+  h2{font-family:"Space Grotesk",Inter,sans-serif;margin:10px 0 4px;font-size:32px}
+  .sub{color:var(--muted);margin:0 0 18px}
+
+  /* Product Grid */
+  .grid{max-width:1200px;margin:10px auto 40px;display:grid;gap:18px;padding:0 24px;
+        grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.05));
+        border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px;box-shadow:0 10px 24px rgba(0,0,0,.25);
+        transition:transform .25s ease, box-shadow .25s ease}
+  .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.35)}
+  .card img{width:100%;height:180px;object-fit:cover;border-radius:12px;margin-bottom:10px;filter:saturate(105%) contrast(105%)}
+  .badge{position:absolute;top:12px;left:12px;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.45);
+         color:#c8ffe9;font-size:.78rem;padding:.25rem .55rem;border-radius:999px}
+  .price{font-weight:700;font-size:1.1rem;margin:.4rem 0}
+  .ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:#e8efff;border-radius:10px;padding:.6rem .8rem;cursor:pointer}
+
+  /* Recommender */
+  .panel{max-width:1200px;margin:0 auto 60px;padding:20px 24px;background:linear-gradient(180deg,rgba(10,43,110,.35),rgba(10,43,110,.15));
+         border:1px solid rgba(59,130,246,.25);border-radius:16px}
+  .row{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .mini{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px}
+
+  /* AI Quote Dock */
+  .dock{position:fixed;right:24px;bottom:24px;z-index:60}
+  .bubble{display:flex;align-items:center;gap:10px;background:linear-gradient(180deg,var(--accent),#2563eb);
+          color:#fff;border:0;border-radius:999px;padding:.85rem 1rem;font-weight:600;box-shadow:0 8px 22px rgba(25,80,214,.5);cursor:pointer}
+  .sheet{position:fixed;right:24px;bottom:90px;width:360px;max-width:92vw;background:#0d1530;border:1px solid rgba(255,255,255,.12);
+         border-radius:16px;padding:14px 14px 16px;box-shadow:0 18px 50px rgba(0,0,0,.5);display:none}
+  .sheet h4{margin:4px 0 8px}
+  .row2{display:flex;gap:8px;margin:8px 0}
+  .row2 select,.row2 input{flex:1;background:#0b1228;border:1px solid rgba(255,255,255,.14);color:#e8eeff;border-radius:10px;padding:.55rem .6rem}
+  .total{font-weight:700;margin:8px 0 12px}
+  .cta{width:100%;background:linear-gradient(180deg,#10b981,#059669);border:0;color:#072014;font-weight:700;border-radius:12px;padding:.7rem 1rem;cursor:pointer}
+  footer{max-width:1200px;margin:40px auto 24px;padding:0 24px;color:#89a1c7;font-size:.9rem}
+</style>
 </head>
 <body>
+
+  <!-- Header -->
   <header>
-    <h1>Algeco Direct</h1>
-    <div class="search">
-      <input placeholder="Search units, cabins, containers..." />
-      <button>Search</button>
+    <div class="wrap">
+      <div class="brand">
+        <img src="./algeco-logo.png" alt="Algeco logo" />
+        <h1>Algeco Direct</h1>
+      </div>
+      <div class="promptbar">
+        <div class="search">
+          <span>🔎</span>
+          <input placeholder="Ask AI: 'I need 10 offices for 6 months in Birmingham'" />
+        </div>
+        <button class="primary" onclick="openDock()">Get Instant Quote</button>
+      </div>
     </div>
   </header>
 
-  <div class="grid">
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1616627453695-66e43e3f96f3" alt="Modular Office" />
+  <!-- Hero -->
+  <section class="hero">
+    <div class="tag">⚡ AI-Enabled • Real-time pricing • Zero-touch checkout</div>
+    <h2>Configure, price, and book <em>modular space</em> in minutes</h2>
+    <p class="sub">Our AI assistant learns your sites and repeats, recommending bundles and scheduling delivery automatically.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <div class="chip" onclick="prefill('20ft storage for 12 weeks, Leeds')">20ft Storage · 12 wks</div>
+      <div class="chip" onclick="prefill('4x3m office, 5 units, London, power & HVAC')">Site Offices + HVAC</div>
+      <div class="chip" onclick="prefill('Eco welfare cabin for 16 staff, Manchester')">Eco Welfare Cabin</div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="grid">
+    <article class="card">
+      <span class="badge">AI-Recommended</span>
+      <img src="https://images.unsplash.com/photo-1616627453695-66e43e3f96f3?q=80&w=1400&auto=format&fit=crop" alt="">
       <h3>Modular Office Unit</h3>
-      <p>Ideal for site offices or temporary workspace.</p>
-      <p class="price">£120 / week</p>
-      <button>Add to Basket</button>
-    </div>
+      <p>Fast-deploy workspace with options for HVAC, power points, and security.</p>
+      <div class="price">£120 / week</div>
+      <button class="ghost" onclick="openDock('Modular Office Unit')">Add & Quote</button>
+    </article>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1616627453695-66e43e3f96f3" alt="Storage Container" />
-      <h3>Storage Container</h3>
-      <p>Secure and stackable for multi-site operations.</p>
-      <p class="price">£80 / week</p>
-      <button>Add to Basket</button>
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1582582621959-c1a3a0bd1f52?q=80&w=1400&auto=format&fit=crop" alt="">
+      <h3>Storage Container (20ft)</h3>
+      <p>Secure, stackable, weather-sealed. Smart tracking available.</p>
+      <div class="price">£80 / week</div>
+      <button class="ghost" onclick="openDock('Storage Container (20ft)')">Add & Quote</button>
+    </article>
+
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1601333144088-9f85a8d0f3e8?q=80&w=1400&auto=format&fit=crop" alt="">
+      <h3>Eco Welfare Cabin</h3>
+      <p>Low-energy unit with solar assist and waste-water monitoring.</p>
+      <div class="price">£155 / week</div>
+      <button class="ghost" onclick="openDock('Eco Welfare Cabin')">Add & Quote</button>
+    </article>
+  </section>
+
+  <!-- Recommender -->
+  <section class="panel">
+    <h3 style="margin:0 0 8px">AI Product Recommender</h3>
+    <p class="sub" style="margin:0 0 16px">Generated for your profile: multi-site contractor, North & Midlands.</p>
+    <div class="row">
+      <div class="mini"><strong>“Site Start” Bundle</strong><br/><span class="sub">2× offices, 1× storage, 1× welfare</span></div>
+      <div class="mini"><strong>Smart Tracking Add-on</strong><br/><span class="sub">Live telematics + retrieval alerts</span></div>
+      <div class="mini"><strong>Green Upgrade</strong><br/><span class="sub">Solar + battery pack (−18% energy)</span></div>
     </div>
+  </section>
+
+  <!-- Floating AI Quote Dock -->
+  <div class="dock">
+    <div id="sheet" class="sheet">
+      <h4>Instant Quote</h4>
+      <div class="row2">
+        <select id="unit">
+          <option>Modular Office Unit</option>
+          <option>Storage Container (20ft)</option>
+          <option>Eco Welfare Cabin</option>
+        </select>
+        <input id="qty" type="number" min="1" value="1"/>
+      </div>
+      <div class="row2">
+        <select id="duration">
+          <option value="4">4 weeks</option>
+          <option value="8">8 weeks</option>
+          <option value="12" selected>12 weeks</option>
+          <option value="24">24 weeks</option>
+        </select>
+        <select id="city">
+          <option>London</option><option>Manchester</option><option>Birmingham</option><option>Leeds</option>
+        </select>
+      </div>
+      <div class="total" id="total">Total: £0</div>
+      <button class="cta" onclick="alert('Request submitted — AI will confirm availability & delivery window.')">Request AI Quote</button>
+    </div>
+    <button class="bubble" onclick="toggleDock()">💬 Ask AI for a Quote</button>
   </div>
 
-  <div class="recommendations">
-    <h2>AI-Powered Product Recommender</h2>
-    <p>Based on your project type and order history, we recommend:</p>
-    <div class="recs">
-      <div class="card">
-        <h3>Stackable Storage Units</h3>
-        <p>Perfect for multi-site logistics.</p>
-        <button>View Details</button>
-      </div>
-      <div class="card">
-        <h3>Eco Welfare Cabins</h3>
-        <p>Ideal for sustainable construction sites.</p>
-        <button>View Details</button>
-      </div>
-    </div>
-  </div>
+  <footer>© 2025 Algeco Direct — AI-enabled modular workspaces</footer>
 
-  <div class="chat-bubble">💬 Ask AI for a Quote</div>
+<script>
+  const PRICE = {'Modular Office Unit':120,'Storage Container (20ft)':80,'Eco Welfare Cabin':155};
+  const sheet = document.getElementById('sheet');
+  const unit = document.getElementById('unit');
+  const qty = document.getElementById('qty');
+  const duration = document.getElementById('duration');
+  const total = document.getElementById('total');
 
-  <footer>
-    © 2025 Algeco Direct — Modular Workspaces Simplified
-  </footer>
+  function toggleDock(){ sheet.style.display = sheet.style.display==='block' ? 'none' : 'block'; calc() }
+  function openDock(p){ if(p){ [...unit.options].forEach(o=>{ if(o.text===p) unit.value=o.text }) } sheet.style.display='block'; calc() }
+  function prefill(text){ document.querySelector('.search input').value = text; openDock() }
+
+  [unit, qty, duration].forEach(el=> el.addEventListener('input', calc));
+  function calc(){
+    const p = PRICE[unit.value] || 0;
+    const weeks = Number(duration.value||0);
+    const q = Math.max(1, Number(qty.value||1));
+    // simple volume discount to feel “AI”: 5% off ≥ 8 wks, 10% off ≥ 24 wks
+    let subtotal = p * q * weeks;
+    const disc = weeks>=24 ? .10 : weeks>=8 ? .05 : 0;
+    subtotal = Math.round(subtotal * (1 - disc));
+    total.textContent = `Total: £${subtotal.toLocaleString()} (incl. ${Math.round(disc*100)}% duration discount)`;
+  }
+  calc();
+</script>
 </body>
 </html>
+
